@@ -4,8 +4,7 @@
 	"compatibilityLevel": "JAVA_17",
 	"mixins": [
 		"ChestBlockEntityMixin",
-		"ChestBlockEntity1Mixin",
-		"WItemSlotMixin"
+		"ChestBlockEntity1Mixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

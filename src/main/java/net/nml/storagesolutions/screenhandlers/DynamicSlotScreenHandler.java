@@ -1,6 +1,5 @@
 package net.nml.storagesolutions.screenhandlers;
 
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.function.IntConsumer;
 
@@ -26,7 +25,6 @@ import net.minecraft.inventory.Inventory;
 import net.minecraft.screen.ScreenHandlerContext;
 import net.nml.storagesolutions.StorageSolutionsLLC;
 import net.nml.storagesolutions.Utils;
-import net.nml.storagesolutions.mixin.WItemSlotMixin;
 
 public class DynamicSlotScreenHandler extends SyncedGuiDescription {
 	private Inventory inventory;
@@ -51,9 +49,9 @@ public class DynamicSlotScreenHandler extends SyncedGuiDescription {
 			setTitleAlignment(HorizontalAlignment.CENTER);
 		}
 
-		WItemSlot grid = WItemSlot.of(inventory, 0, columns, rows);
+		WItemSlot grid = WItemSlot.of(inventory, 0, columns, Math.min(MAX_ROWS, rows));
 		CWScrollBar scrollbar = new CWScrollBar(Axis.VERTICAL); // Vertical scrollbar
-		WScrollPanel scroll = new CWScrollPanel(grid, scrollbar);
+		CWScrollPanel scroll = new CWScrollPanel(grid, scrollbar);
 		scrollbar.setMaxValue(rows); // Max scroll value based on total rows
 		scrollbar.setWindow(MAX_ROWS);
 		scrollbar.setValue(scrollOffset); // Set current scroll position
@@ -67,11 +65,12 @@ public class DynamicSlotScreenHandler extends SyncedGuiDescription {
 		if (rows > MAX_ROWS) {
 			root.add(scrollbar, columns * 18 + 1, 10, 9, height - 13);
 
-			updateSlots(grid, rows, columns);
 			scrollbar.setChangeListener(value -> {
-				scroll.setScrollingVertically(TriState.TRUE);
 				this.scrollOffset = value;
-				updateSlots(grid, rows, columns);
+				this.slots.clear();
+				WItemSlot grid2 = WItemSlot.of(inventory, columns * scrollOffset, columns, MAX_ROWS);
+				scroll.widget = grid2;
+				root.validate(this);
 			});
 		}
 		root.add(scroll, 0, 10, columns * 18 + 9, height - 13);
@@ -80,21 +79,9 @@ public class DynamicSlotScreenHandler extends SyncedGuiDescription {
 		root.validate(this);
 	}
 
-	private void updateSlots(WItemSlot grid, int rows, int columns) {
-		// StorageSolutionsLLC.LOGGER.info("ScrollOffset: " + scrollOffset);
-		int lastId = columns * scrollOffset;
-		Iterator<ValidatedSlot> slots = ((WItemSlotMixin) grid).getPeers().iterator();
-		grid.setLocation(0, -scrollOffset);
-		for (int i = 0; slots.hasNext(); i++) {
-			ValidatedSlot slot = slots.next();
-			slot.setVisible(i - lastId >= 0 && i < MAX_ROWS * columns + lastId);
-			// TODO: modify slot.y, somehow
-		}
-	}
-
 	private class CWScrollPanel extends WScrollPanel {
 		private CWScrollBar scrollBar;
-		private WWidget widget;
+		public WWidget widget;
 
 		public CWScrollPanel(WWidget widget, CWScrollBar scrollBar) {
 			super(widget);
@@ -111,7 +98,10 @@ public class DynamicSlotScreenHandler extends SyncedGuiDescription {
 		@Override
 		public void layout() {
 			children.clear();
+			if (widget instanceof WPanel)
+				((WPanel) widget).layout();
 			children.add(widget);
+			widget.setLocation(0, 0);
 		}
 	}
 
