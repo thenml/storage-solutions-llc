@@ -1,0 +1,13 @@
+{
+	"required": true,
+	"package": "net.nml.storagesolutions.mixin",
+	"compatibilityLevel": "JAVA_17",
+	"mixins": [
+		"ChestBlockEntityMixin",
+		"ChestBlockEntity1Mixin",
+		"WItemSlotMixin"
+	],
+	"injectors": {
+		"defaultRequire": 1
+	}
+}
