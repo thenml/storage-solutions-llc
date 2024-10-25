@@ -12,7 +12,6 @@ import net.minecraft.client.render.model.BakedModel;
 import net.minecraft.client.render.model.json.ModelTransformationMode;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.nml.storagesolutions.blocks.MaterialChests;
 import net.nml.storagesolutions.chest.MaterialChestBlockEntity;
@@ -31,8 +30,7 @@ public abstract class ItemRendererMixin {
 		MaterialChestBlockEntity blockEntity = new MaterialChestBlockEntity(new BlockPos(0, 0, 0),
 				MaterialChests.MATERIAL_CHEST_BLOCK.getDefaultState());
 		if (stack.getSubNbt("BlockEntityTag") != null) {
-			blockEntity
-					.setBaseBlockIdentifier(new Identifier(stack.getSubNbt("BlockEntityTag").getString("BaseBlock")));
+			blockEntity.readNbt(stack.getSubNbt("BlockEntityTag"));
 		}
 		MinecraftClient.getInstance().getBlockEntityRenderDispatcher().renderEntity(blockEntity, matrices,
 				vertexConsumers, light, overlay);

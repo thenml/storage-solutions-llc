@@ -1,10 +1,10 @@
 package net.nml.storagesolutions.screenhandlers;
 
-import java.util.Iterator;
 import java.util.function.IntConsumer;
 
 import org.jetbrains.annotations.Nullable;
 
+import io.github.cottonmc.cotton.gui.GuiDescription;
 import io.github.cottonmc.cotton.gui.SyncedGuiDescription;
 import io.github.cottonmc.cotton.gui.ValidatedSlot;
 import io.github.cottonmc.cotton.gui.widget.WItemSlot;
@@ -25,11 +25,13 @@ import net.minecraft.inventory.Inventory;
 import net.minecraft.screen.ScreenHandlerContext;
 import net.nml.storagesolutions.StorageSolutionsLLC;
 import net.nml.storagesolutions.Utils;
+import net.nml.storagesolutions.mixin.WItemSlotMixin;
 
 public class DynamicSlotScreenHandler extends SyncedGuiDescription {
 	private Inventory inventory;
 	private int scrollOffset = 0; // Current scroll position
 	private static final int MAX_ROWS = 12;
+	private CWItemSlot grid;
 
 	public DynamicSlotScreenHandler(int syncId, PlayerInventory playerInventory, int slotCount,
 			ScreenHandlerContext context) {
@@ -41,42 +43,57 @@ public class DynamicSlotScreenHandler extends SyncedGuiDescription {
 
 		int rows = Utils.calculateRows(slotCount);
 		int columns = slotCount / rows;
-
-		WPlainPanel root = new WPlainPanel();
-		setRootPanel(root);
+		int xOffset = columns > 9 ? 9 * (columns - 9) : 0;
+		int height = 13 + 18 * Math.min(rows, MAX_ROWS);
 
 		if (columns < 9) {
 			setTitleAlignment(HorizontalAlignment.CENTER);
 		}
 
-		WItemSlot grid = WItemSlot.of(inventory, 0, columns, Math.min(MAX_ROWS, rows));
-		CWScrollBar scrollbar = new CWScrollBar(Axis.VERTICAL); // Vertical scrollbar
-		CWScrollPanel scroll = new CWScrollPanel(grid, scrollbar);
-		scrollbar.setMaxValue(rows); // Max scroll value based on total rows
+		WPlainPanel root = new WPlainPanel();
+		setRootPanel(root);
+
+		grid = new CWItemSlot(inventory, 0, columns, rows);
+
+		CWScrollBar scrollbar = new CWScrollBar(Axis.VERTICAL);
+		scrollbar.setMaxValue(rows);
 		scrollbar.setWindow(MAX_ROWS);
-		scrollbar.setValue(scrollOffset); // Set current scroll position
+
+		CWScrollPanel scroll = new CWScrollPanel(grid, scrollbar);
 		scroll.setScrollingVertically(TriState.FALSE);
 		scroll.setScrollingHorizontally(TriState.FALSE);
 
 		root.setInsets(Insets.ROOT_PANEL);
-		int xOffset = columns > 9 ? 9 * (columns - 9) : 0;
-		int height = 13 + 18 * Math.min(rows, MAX_ROWS);
-
 		if (rows > MAX_ROWS) {
 			root.add(scrollbar, columns * 18 + 1, 10, 9, height - 13);
-
 			scrollbar.setChangeListener(value -> {
 				this.scrollOffset = value;
 				this.slots.clear();
-				WItemSlot grid2 = WItemSlot.of(inventory, columns * scrollOffset, columns, MAX_ROWS);
-				scroll.widget = grid2;
 				root.validate(this);
 			});
 		}
-		root.add(scroll, 0, 10, columns * 18 + 9, height - 13);
-
+		root.add(scroll, columns < 9 ? 9 * (9 - columns) : 0, 10, columns * 18, height - 13);
 		root.add(this.createPlayerInventoryPanel(), xOffset, height);
 		root.validate(this);
+	}
+
+	private class CWItemSlot extends WItemSlot {
+		int columns;
+
+		public CWItemSlot(Inventory inventory, int startIndex, int slotsWide, int slotsHigh) {
+			super(inventory, startIndex, slotsWide, slotsHigh, false);
+			this.columns = slotsWide;
+		}
+
+		@Override
+		public void validate(GuiDescription host) {
+			super.validate(host);
+			int i = 0;
+			for (ValidatedSlot peer : ((WItemSlotMixin) this).getPeers()) {
+				peer.setVisible(i >= columns * scrollOffset && i < (MAX_ROWS + scrollOffset) * columns);
+				i++;
+			}
+		}
 	}
 
 	private class CWScrollPanel extends WScrollPanel {
@@ -98,10 +115,10 @@ public class DynamicSlotScreenHandler extends SyncedGuiDescription {
 		@Override
 		public void layout() {
 			children.clear();
-			if (widget instanceof WPanel)
-				((WPanel) widget).layout();
+			if (widget instanceof WPanel panel)
+				panel.layout();
 			children.add(widget);
-			widget.setLocation(0, 0);
+			grid.setLocation(0, -18 * scrollOffset);
 		}
 	}
 
@@ -126,18 +143,29 @@ public class DynamicSlotScreenHandler extends SyncedGuiDescription {
 
 		@Override
 		public InputResult onKeyPressed(int ch, int key, int modifiers) {
+			InputResult ret = super.onKeyPressed(ch, key, modifiers);
 			if (this.onChange != null) {
 				this.onChange.accept(getValue());
 			}
-			return super.onKeyPressed(ch, key, modifiers);
+			return ret;
+		}
+
+		@Override
+		public InputResult onMouseDown(int x, int y, int button) {
+			InputResult ret = super.onMouseDown(x, y, button);
+			if (this.onChange != null) {
+				// this.onChange.accept(getValue());
+			}
+			StorageSolutionsLLC.LOGGER.info("mouse down");
+			return ret;
 		}
 
 		@Override
 		protected void adjustSlider(int x, int y) {
-			if (this.onChange != null) {
-				this.onChange.accept(getValue());
-			}
 			super.adjustSlider(x, y);
+			if (this.onChange != null) {
+				// this.onChange.accept(getValue());
+			}
 		}
 
 		public void setChangeListener(IntConsumer onChange) {

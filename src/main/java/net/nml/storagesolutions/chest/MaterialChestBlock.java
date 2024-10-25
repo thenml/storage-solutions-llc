@@ -2,27 +2,22 @@ package net.nml.storagesolutions.chest;
 
 import java.util.function.Supplier;
 
+import blue.endless.jankson.annotation.Nullable;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.ChestBlock;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.block.entity.ChestBlockEntity;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
-import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
 import net.minecraft.registry.Registries;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
-import net.minecraft.util.Identifier;
+import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.util.ItemScatterer;
-import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.BlockView;
@@ -45,37 +40,9 @@ public class MaterialChestBlock extends ChestBlock {
 	}
 
 	@Override
-	public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand,
-			BlockHitResult hit) {
-		BlockEntity blockEntity = world.getBlockEntity(pos);
-
-		if (blockEntity instanceof MaterialChestBlockEntity chestBlockEntity) {
-			ItemStack heldItemStack = player.getMainHandStack();
-			// TODO: replace with chests nbt
-			if (heldItemStack.getItem() instanceof BlockItem blockItem) {
-				Identifier blockIdentifier = Registries.BLOCK.getId(blockItem.getBlock());
-				if (!player.isCreative()) {
-					dropBaseBlock(world, pos);
-					heldItemStack.decrement(1);
-				}
-				chestBlockEntity.setBaseBlockIdentifier(blockIdentifier);
-
-				chestBlockEntity.markDirty();
-
-				return ActionResult.SUCCESS;
-			}
-			if (player instanceof ServerPlayerEntity serverPlayerEntity) {
-				serverPlayerEntity.openHandledScreen(chestBlockEntity.createScreenHandlerFactory());
-			}
-		}
-		return ActionResult.SUCCESS;
-	}
-
-	@Override
 	public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
 		if (!state.isOf(newState.getBlock())) {
-			dropBaseBlock(world, pos);
-
+			drop(world, pos);
 			super.onStateReplaced(state, world, pos, newState, moved);
 		}
 	}
@@ -94,14 +61,23 @@ public class MaterialChestBlock extends ChestBlock {
 		return pickStack;
 	}
 
-	private void dropBaseBlock(World world, BlockPos pos) {
+	private void drop(World world, BlockPos pos) {
 		BlockEntity blockEntity = world.getBlockEntity(pos);
 		if (blockEntity instanceof MaterialChestBlockEntity chestBlockEntity) {
 			Block baseBlock = Registries.BLOCK.get(chestBlockEntity.getBaseBlockIdentifier());
 			if (!baseBlock.equals(MaterialChestBlockEntity.DEFAULT_BASE_BLOCK_IDENTIFIER)) {
 				ItemScatterer.spawn(world, pos.getX(), pos.getY(), pos.getZ(),
-						baseBlock.asItem().getDefaultStack());
+						getPickStack(world, pos, getDefaultState()));
 			}
 		}
+	}
+
+	@Nullable
+	@Override
+	public NamedScreenHandlerFactory createScreenHandlerFactory(BlockState state, World world, BlockPos pos) {
+		BlockEntity blockEntity = world.getBlockEntity(pos);
+		if (blockEntity instanceof MaterialChestBlockEntity chest)
+			return chest.createScreenHandlerFactory();
+		return null;
 	}
 }

@@ -29,23 +29,20 @@ import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
 import net.minecraft.client.render.block.entity.LightmapCoordinatesRetriever;
 import net.minecraft.client.render.entity.model.EntityModelLayers;
 import net.minecraft.client.texture.SpriteAtlasTexture;
-import net.minecraft.client.util.SpriteIdentifier;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.RotationAxis;
 import net.minecraft.world.World;
-import net.nml.storagesolutions.StorageSolutionsLLC;
 import net.nml.storagesolutions.StorageSolutionsLLCClient;
+import net.nml.storagesolutions.TierTextures;
 import net.nml.storagesolutions.blocks.MaterialChests;
 import net.nml.storagesolutions.chest.MaterialChestBlockEntity;
 import net.nml.storagesolutions.models.ModifiedSlabModel;
 
 @Environment(EnvType.CLIENT)
 public class MaterialChestBlockEntityRenderer<T extends BlockEntity & LidOpenable> implements BlockEntityRenderer<T> {
-	private static SpriteIdentifier CHEST_TEXTURE = new SpriteIdentifier(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE,
-			new Identifier(StorageSolutionsLLC.MOD_ID, "entity/chest/normal"));
 	private final ModelPart singleChestLid;
 	private final ModelPart singleChestBase;
 	private final ModelPart singleChestLatch;
@@ -97,51 +94,53 @@ public class MaterialChestBlockEntityRenderer<T extends BlockEntity & LidOpenabl
 
 		if (entity instanceof MaterialChestBlockEntity blockEntity) {
 			reference_block = Registries.BLOCK.get(blockEntity.getBaseBlockIdentifier());
-		}
 
-		if (block instanceof AbstractChestBlock<?> chestBlock) {
-			boolean isDouble = chestType != ChestType.SINGLE;
-			matrices.push();
-			float rotation = blockState.get(ChestBlock.FACING).asRotation();
-			matrices.translate(0.5F, 0.5F, 0.5F);
-			matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(-rotation));
-			matrices.translate(-0.5F, -0.5F, -0.5F);
-			float openFactor = 0F;
-			int adjustedLight = light;
+			if (block instanceof AbstractChestBlock<?> chestBlock) {
+				boolean isDouble = chestType != ChestType.SINGLE;
+				matrices.push();
+				float rotation = blockState.get(ChestBlock.FACING).asRotation();
+				matrices.translate(0.5F, 0.5F, 0.5F);
+				matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(-rotation));
+				matrices.translate(-0.5F, -0.5F, -0.5F);
+				float openFactor = 0F;
+				int adjustedLight = light;
 
-			if (world != null) {
-				DoubleBlockProperties.PropertySource<? extends ChestBlockEntity> propertySource = chestBlock
-						.getBlockEntitySource(blockState, world, entity.getPos(), true);
-				openFactor = 1F - ((Float2FloatFunction) propertySource
-						.apply(ChestBlock.getAnimationProgressRetriever(entity))).get(tickDelta);
-				openFactor = 1F - openFactor * openFactor * openFactor;
-				adjustedLight = ((Int2IntFunction) propertySource.apply(new LightmapCoordinatesRetriever<>()))
-						.applyAsInt(light);
-			}
+				if (world != null) {
+					DoubleBlockProperties.PropertySource<? extends ChestBlockEntity> propertySource = chestBlock
+							.getBlockEntitySource(blockState, world, entity.getPos(), true);
+					openFactor = 1F - ((Float2FloatFunction) propertySource
+							.apply(ChestBlock.getAnimationProgressRetriever(entity))).get(tickDelta);
+					openFactor = 1F - openFactor * openFactor * openFactor;
+					adjustedLight = ((Int2IntFunction) propertySource.apply(new LightmapCoordinatesRetriever<>()))
+							.applyAsInt(light);
+				}
 
-			VertexConsumer vertexConsumerBlock = vertexConsumers
-					.getBuffer(RenderLayer.getEntityCutout(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE));
+				VertexConsumer vertexConsumerBlock = vertexConsumers
+						.getBuffer(RenderLayer.getEntityCutout(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE));
 
-			VertexConsumer vertexConsumerChest = CHEST_TEXTURE.getVertexConsumer(vertexConsumers,
-					RenderLayer::getEntityCutout);
+				VertexConsumer vertexConsumerChest = TierTextures.getChestTexture(blockEntity.size()).getVertexConsumer(
+						vertexConsumers, RenderLayer::getEntityCutout);
 
-			if (isDouble) {
-				if (chestType == ChestType.LEFT) {
-					renderMaterialChest(matrices, vertexConsumerBlock, vertexConsumerChest, this.doubleChestLeftLid,
-							this.doubleChestLeftLatch, this.doubleChestLeftBase, openFactor, adjustedLight, overlay,
-							reference_block);
+				if (isDouble) {
+					if (chestType == ChestType.LEFT) {
+						renderMaterialChest(matrices, vertexConsumerBlock, vertexConsumerChest, this.doubleChestLeftLid,
+								this.doubleChestLeftLatch, this.doubleChestLeftBase, openFactor, adjustedLight, overlay,
+								reference_block);
+					} else {
+						renderMaterialChest(matrices, vertexConsumerBlock, vertexConsumerChest,
+								this.doubleChestRightLid,
+								this.doubleChestRightLatch, this.doubleChestRightBase, openFactor, adjustedLight,
+								overlay,
+								reference_block);
+					}
 				} else {
-					renderMaterialChest(matrices, vertexConsumerBlock, vertexConsumerChest, this.doubleChestRightLid,
-							this.doubleChestRightLatch, this.doubleChestRightBase, openFactor, adjustedLight, overlay,
+					renderMaterialChest(matrices, vertexConsumerBlock, vertexConsumerChest, this.singleChestLid,
+							this.singleChestLatch, this.singleChestBase, openFactor, adjustedLight, overlay,
 							reference_block);
 				}
-			} else {
-				renderMaterialChest(matrices, vertexConsumerBlock, vertexConsumerChest, this.singleChestLid,
-						this.singleChestLatch, this.singleChestBase, openFactor, adjustedLight, overlay,
-						reference_block);
-			}
 
-			matrices.pop();
+				matrices.pop();
+			}
 		}
 	}
 
@@ -166,7 +165,7 @@ public class MaterialChestBlockEntityRenderer<T extends BlockEntity & LidOpenabl
 			float[] uvTop = new float[] { 0f, 0f, 16f, 16f };
 			ModifiedSlabModel model = new ModifiedSlabModel(blockRenderManager.getModel(state).getParticleSprite(),
 					id, from, to, uvSide, uvTop);
-			StorageSolutionsLLC.LOGGER.info("Generated model for: " + id);
+			// StorageSolutionsLLC.LOGGER.info("Generated model for: " + id);
 			StorageSolutionsLLCClient.MODIFIED_MODELS.put(id, model);
 		}
 		blockRenderManager.getModelRenderer().render(matrices.peek(), vertexConsumerBlock,

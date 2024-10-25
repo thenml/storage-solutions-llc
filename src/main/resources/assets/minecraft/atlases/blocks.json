@@ -2,7 +2,51 @@
 	"sources": [
 		{
 			"type": "single",
-			"resource": "storage-solutions-llc:entity/chest/normal"
+			"resource": "storage-solutions-llc:entity/chest/lite"
+		},
+		{
+			"type": "single",
+			"resource": "storage-solutions-llc:entity/chest/basic"
+		},
+		{
+			"type": "single",
+			"resource": "storage-solutions-llc:entity/chest/copper"
+		},
+		{
+			"type": "single",
+			"resource": "storage-solutions-llc:entity/chest/iron"
+		},
+		{
+			"type": "single",
+			"resource": "storage-solutions-llc:entity/chest/gold"
+		},
+		{
+			"type": "single",
+			"resource": "storage-solutions-llc:entity/chest/diamond"
+		},
+		{
+			"type": "single",
+			"resource": "storage-solutions-llc:entity/chest/sculk"
+		},
+		{
+			"type": "single",
+			"resource": "storage-solutions-llc:entity/chest/netherite"
+		},
+		{
+			"type": "single",
+			"resource": "storage-solutions-llc:entity/chest/legendary"
+		},
+		{
+			"type": "single",
+			"resource": "storage-solutions-llc:entity/chest/mythic"
+		},
+		{
+			"type": "single",
+			"resource": "storage-solutions-llc:entity/chest/godlike"
+		},
+		{
+			"type": "single",
+			"resource": "storage-solutions-llc:entity/chest/creative"
 		}
 	]
 }

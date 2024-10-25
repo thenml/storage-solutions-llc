@@ -12,6 +12,7 @@ import net.nml.storagesolutions.blocks.MaterialChestBlockEntityTypes;
 import net.nml.storagesolutions.renderers.MaterialChestBlockEntityRenderer;
 
 public class StorageSolutionsLLCClient implements ClientModInitializer {
+	// TODO: reset when reloading textures
 	public static HashMap<Identifier, BakedModel> MODIFIED_MODELS = new HashMap<>();
 
 	@Override
@@ -19,5 +20,7 @@ public class StorageSolutionsLLCClient implements ClientModInitializer {
 		HandledScreens.register(StorageSolutionsLLC.DYNAMIC_SLOT_SCREEN_HANDLER_TYPE, CottonInventoryScreen::new);
 		BlockEntityRendererFactories.register(MaterialChestBlockEntityTypes.MATERIAL_CHEST_BLOCK_ENTITY,
 				MaterialChestBlockEntityRenderer::new);
+
+		TierTextures.initialize();
 	}
 }

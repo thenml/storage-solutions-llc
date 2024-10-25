@@ -23,7 +23,6 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
-import net.nml.storagesolutions.StorageSolutionsLLC;
 import net.nml.storagesolutions.blocks.MaterialChestBlockEntityTypes;
 import net.nml.storagesolutions.screenhandlers.DynamicSlotScreenHandler;
 
