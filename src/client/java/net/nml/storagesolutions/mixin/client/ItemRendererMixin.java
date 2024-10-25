@@ -13,8 +13,8 @@ import net.minecraft.client.render.model.json.ModelTransformationMode;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
-import net.nml.storagesolutions.blocks.MaterialChests;
 import net.nml.storagesolutions.chest.MaterialChestBlockEntity;
+import net.nml.storagesolutions.registers.RegisterBlocks;
 
 @Mixin(ItemRenderer.class)
 public abstract class ItemRendererMixin {
@@ -24,11 +24,11 @@ public abstract class ItemRendererMixin {
 	public void renderItem(ItemStack stack, ModelTransformationMode renderMode, boolean leftHanded,
 			MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay, BakedModel model,
 			CallbackInfo ci) {
-		if (!stack.isOf(MaterialChests.MATERIAL_CHEST_BLOCK.asItem()))
+		if (!stack.isOf(RegisterBlocks.MATERIAL_CHEST_BLOCK.asItem()))
 			return;
 
 		MaterialChestBlockEntity blockEntity = new MaterialChestBlockEntity(new BlockPos(0, 0, 0),
-				MaterialChests.MATERIAL_CHEST_BLOCK.getDefaultState());
+				RegisterBlocks.MATERIAL_CHEST_BLOCK.getDefaultState());
 		if (stack.getSubNbt("BlockEntityTag") != null) {
 			blockEntity.readNbt(stack.getSubNbt("BlockEntityTag"));
 		}

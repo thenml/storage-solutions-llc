@@ -23,18 +23,18 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
-import net.nml.storagesolutions.blocks.MaterialChestBlockEntityTypes;
+import net.nml.storagesolutions.registers.RegisterBlockTypes;
 import net.nml.storagesolutions.screenhandlers.DynamicSlotScreenHandler;
 
 public class MaterialChestBlockEntity extends ChestBlockEntity {
-	public static final Block DEFAULT_BASE_BLOCK_IDENTIFIER = Blocks.STONE_BRICKS;
+	public static final Block DEFAULT_BASE_BLOCK = Blocks.STONE_BRICKS;
 	public static final int DEFAULT_SLOT_COUNT = 27;
 	private Identifier baseBlockIdentifier;
 	private int slotCount;
 
 	public MaterialChestBlockEntity(BlockPos pos, BlockState state) {
-		super(MaterialChestBlockEntityTypes.MATERIAL_CHEST_BLOCK_ENTITY, pos, state);
-		this.baseBlockIdentifier = Registries.BLOCK.getId(DEFAULT_BASE_BLOCK_IDENTIFIER); // default
+		super(RegisterBlockTypes.MATERIAL_CHEST_BLOCK_ENTITY, pos, state);
+		this.baseBlockIdentifier = Registries.BLOCK.getId(DEFAULT_BASE_BLOCK); // default
 		this.slotCount = DEFAULT_SLOT_COUNT; // TODO: temporary
 	}
 

@@ -33,6 +33,33 @@ public class Materials {
 		});
 	}
 
+	public static String getTier(int slotCount) {
+		// TODO: rename the tiers?
+		if (slotCount < 27)
+			return "lite";
+		if (slotCount < 40)
+			return "basic";
+		if (slotCount < 54)
+			return "copper";
+		if (slotCount < 71)
+			return "iron";
+		if (slotCount < 108)
+			return "gold";
+		if (slotCount < 162)
+			return "diamond";
+		if (slotCount < 216)
+			return "sculk";
+		if (slotCount < 324)
+			return "netherite";
+		if (slotCount < 432)
+			return "legendary";
+		if (slotCount < 648)
+			return "mythic";
+		if (slotCount < 1026)
+			return "godlike";
+		return "creative";
+	}
+
 	private static boolean isValidMaterial(RegistryKey<Item> key, Item item, Identifier id) {
 		matchStrings.forEach((s) -> {
 			if (id.toString().endsWith(s)) {

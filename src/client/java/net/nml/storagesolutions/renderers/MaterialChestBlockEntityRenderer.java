@@ -37,9 +37,9 @@ import net.minecraft.util.math.RotationAxis;
 import net.minecraft.world.World;
 import net.nml.storagesolutions.StorageSolutionsLLCClient;
 import net.nml.storagesolutions.TierTextures;
-import net.nml.storagesolutions.blocks.MaterialChests;
 import net.nml.storagesolutions.chest.MaterialChestBlockEntity;
 import net.nml.storagesolutions.models.ModifiedSlabModel;
+import net.nml.storagesolutions.registers.RegisterBlocks;
 
 @Environment(EnvType.CLIENT)
 public class MaterialChestBlockEntityRenderer<T extends BlockEntity & LidOpenable> implements BlockEntityRenderer<T> {
@@ -85,7 +85,7 @@ public class MaterialChestBlockEntityRenderer<T extends BlockEntity & LidOpenabl
 			int light, int overlay) {
 		World world = entity.getWorld();
 		BlockState blockState = world != null ? entity.getCachedState()
-				: MaterialChests.MATERIAL_CHEST_BLOCK.getDefaultState().with(ChestBlock.FACING, Direction.SOUTH);
+				: RegisterBlocks.MATERIAL_CHEST_BLOCK.getDefaultState().with(ChestBlock.FACING, Direction.SOUTH);
 		ChestType chestType = blockState.contains(ChestBlock.CHEST_TYPE) ? blockState.get(ChestBlock.CHEST_TYPE)
 				: ChestType.SINGLE;
 		Block block = blockState.getBlock();

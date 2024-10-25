@@ -1,4 +1,4 @@
-package net.nml.storagesolutions.blocks;
+package net.nml.storagesolutions.registers;
 
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.minecraft.block.entity.BlockEntityType;
@@ -8,11 +8,11 @@ import net.minecraft.util.Identifier;
 import net.nml.storagesolutions.StorageSolutionsLLC;
 import net.nml.storagesolutions.chest.MaterialChestBlockEntity;
 
-public class MaterialChestBlockEntityTypes {
+public class RegisterBlockTypes {
 
 	public static final BlockEntityType<MaterialChestBlockEntity> MATERIAL_CHEST_BLOCK_ENTITY = register(
 			"material_chest",
-			FabricBlockEntityTypeBuilder.create(MaterialChestBlockEntity::new, MaterialChests.MATERIAL_CHEST_BLOCK)
+			FabricBlockEntityTypeBuilder.create(MaterialChestBlockEntity::new, RegisterBlocks.MATERIAL_CHEST_BLOCK)
 					.build(null));
 
 	public static <T extends BlockEntityType<?>> T register(String name, T blockEntityType) {

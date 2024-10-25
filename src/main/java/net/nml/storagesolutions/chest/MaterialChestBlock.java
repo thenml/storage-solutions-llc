@@ -24,6 +24,8 @@ import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 
 public class MaterialChestBlock extends ChestBlock {
+	private String translationKey;
+
 	public MaterialChestBlock(Settings settings, Supplier<BlockEntityType<? extends ChestBlockEntity>> supplier) {
 		super(settings, supplier);
 	}
@@ -65,7 +67,7 @@ public class MaterialChestBlock extends ChestBlock {
 		BlockEntity blockEntity = world.getBlockEntity(pos);
 		if (blockEntity instanceof MaterialChestBlockEntity chestBlockEntity) {
 			Block baseBlock = Registries.BLOCK.get(chestBlockEntity.getBaseBlockIdentifier());
-			if (!baseBlock.equals(MaterialChestBlockEntity.DEFAULT_BASE_BLOCK_IDENTIFIER)) {
+			if (!baseBlock.equals(MaterialChestBlockEntity.DEFAULT_BASE_BLOCK)) {
 				ItemScatterer.spawn(world, pos.getX(), pos.getY(), pos.getZ(),
 						getPickStack(world, pos, getDefaultState()));
 			}

@@ -8,7 +8,7 @@ import net.minecraft.client.gui.screen.ingame.HandledScreens;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactories;
 import net.minecraft.client.render.model.BakedModel;
 import net.minecraft.util.Identifier;
-import net.nml.storagesolutions.blocks.MaterialChestBlockEntityTypes;
+import net.nml.storagesolutions.registers.RegisterBlockTypes;
 import net.nml.storagesolutions.renderers.MaterialChestBlockEntityRenderer;
 
 public class StorageSolutionsLLCClient implements ClientModInitializer {
@@ -18,7 +18,7 @@ public class StorageSolutionsLLCClient implements ClientModInitializer {
 	@Override
 	public void onInitializeClient() {
 		HandledScreens.register(StorageSolutionsLLC.DYNAMIC_SLOT_SCREEN_HANDLER_TYPE, CottonInventoryScreen::new);
-		BlockEntityRendererFactories.register(MaterialChestBlockEntityTypes.MATERIAL_CHEST_BLOCK_ENTITY,
+		BlockEntityRendererFactories.register(RegisterBlockTypes.MATERIAL_CHEST_BLOCK_ENTITY,
 				MaterialChestBlockEntityRenderer::new);
 
 		TierTextures.initialize();

@@ -1,0 +1,16 @@
+{
+	"block.storage-solutions-llc.material_chest.lite": "Простой сундук",
+	"block.storage-solutions-llc.material_chest.basic": "Базовый сундук",
+	"block.storage-solutions-llc.material_chest.copper": "Укреплённый сундук",
+	"block.storage-solutions-llc.material_chest.iron": "Продвинутый сундук",
+	"block.storage-solutions-llc.material_chest.gold": "Превосходный сундук",
+	"block.storage-solutions-llc.material_chest.diamond": "Элитный сундук",
+	"block.storage-solutions-llc.material_chest.sculk": "Мастерской сундук",
+	"block.storage-solutions-llc.material_chest.netherite": "Великий сундук",
+	"block.storage-solutions-llc.material_chest.legendary": "Легендарный сундук",
+	"block.storage-solutions-llc.material_chest.mythic": "Мифический сундук",
+	"block.storage-solutions-llc.material_chest.godlike": "Божественный сундук",
+	"block.storage-solutions-llc.material_chest.creative": "Творческий сундук",
+	"block.storage-solutions-llc.material_chest.tooltip1": "Улучшение: %s",
+	"block.storage-solutions-llc.material_chest.tooltip2": "Содержит %s ячеек!"
+}

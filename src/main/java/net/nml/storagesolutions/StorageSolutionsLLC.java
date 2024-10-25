@@ -11,8 +11,8 @@ import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
-import net.nml.storagesolutions.blocks.MaterialChestBlockEntityTypes;
-import net.nml.storagesolutions.blocks.MaterialChests;
+import net.nml.storagesolutions.registers.RegisterBlockTypes;
+import net.nml.storagesolutions.registers.RegisterBlocks;
 import net.nml.storagesolutions.screenhandlers.DynamicSlotScreenHandler;
 
 import java.util.Iterator;
@@ -36,8 +36,8 @@ public class StorageSolutionsLLC implements ModInitializer {
 	public void onInitialize() {
 		LOGGER.info("Hello Fabric world!");
 
-		MaterialChests.initialize();
-		MaterialChestBlockEntityTypes.initialize();
+		RegisterBlocks.initialize();
+		RegisterBlockTypes.initialize();
 
 		// temporary for ~~testing~~ fun
 		CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> dispatcher

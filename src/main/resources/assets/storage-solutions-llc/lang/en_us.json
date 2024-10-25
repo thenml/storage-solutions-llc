@@ -1,0 +1,16 @@
+{
+	"block.storage-solutions-llc.material_chest.lite": "Lite Chest",
+	"block.storage-solutions-llc.material_chest.basic": "Basic Chest",
+	"block.storage-solutions-llc.material_chest.copper": "Reinforced Chest",
+	"block.storage-solutions-llc.material_chest.iron": "Enhanced Chest",
+	"block.storage-solutions-llc.material_chest.gold": "Superior Chest",
+	"block.storage-solutions-llc.material_chest.diamond": "Elite Chest",
+	"block.storage-solutions-llc.material_chest.sculk": "Master Chest",
+	"block.storage-solutions-llc.material_chest.netherite": "Grand Chest",
+	"block.storage-solutions-llc.material_chest.legendary": "Legendary Chest",
+	"block.storage-solutions-llc.material_chest.mythic": "Mythic Chest",
+	"block.storage-solutions-llc.material_chest.godlike": "Godlike Chest",
+	"block.storage-solutions-llc.material_chest.creative": "Creative Chest",
+	"block.storage-solutions-llc.material_chest.tooltip1": "Upgrade: %s",
+	"block.storage-solutions-llc.material_chest.tooltip2": "Contains %s slots!"
+}
