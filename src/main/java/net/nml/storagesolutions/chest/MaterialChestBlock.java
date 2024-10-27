@@ -2,8 +2,6 @@ package net.nml.storagesolutions.chest;
 
 import java.util.function.Supplier;
 
-import blue.endless.jankson.annotation.Nullable;
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.ChestBlock;
 import net.minecraft.block.entity.BlockEntity;
@@ -13,19 +11,16 @@ import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
-import net.minecraft.registry.Registries;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.util.ItemScatterer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
+import net.nml.storagesolutions.Utils;
 
 public class MaterialChestBlock extends ChestBlock {
-	private String translationKey;
-
 	public MaterialChestBlock(Settings settings, Supplier<BlockEntityType<? extends ChestBlockEntity>> supplier) {
 		super(settings, supplier);
 	}
@@ -51,30 +46,20 @@ public class MaterialChestBlock extends ChestBlock {
 
 	@Override
 	public ItemStack getPickStack(BlockView world, BlockPos pos, BlockState state) {
-		final ItemStack pickStack = super.getPickStack(world, pos, state);
+		ItemStack pickStack = super.getPickStack(world, pos, state);
 		final BlockEntity blockEntity = world.getBlockEntity(pos);
 		if (blockEntity instanceof MaterialChestBlockEntity chestBlockEntity) {
-			NbtCompound nbtCompound = new NbtCompound();
-			nbtCompound.putString("BaseBlock", chestBlockEntity.getBaseBlockIdentifier().toString());
-			nbtCompound.putInt("SlotCount", chestBlockEntity.size());
-			pickStack.setSubNbt("BlockEntityTag", nbtCompound);
+			Utils.tieredItemStack(pickStack, chestBlockEntity);
 			BlockEntityUpdateS2CPacket.create(chestBlockEntity);
 		}
 		return pickStack;
 	}
 
 	private void drop(World world, BlockPos pos) {
-		BlockEntity blockEntity = world.getBlockEntity(pos);
-		if (blockEntity instanceof MaterialChestBlockEntity chestBlockEntity) {
-			Block baseBlock = Registries.BLOCK.get(chestBlockEntity.getBaseBlockIdentifier());
-			if (!baseBlock.equals(MaterialChestBlockEntity.DEFAULT_BASE_BLOCK)) {
-				ItemScatterer.spawn(world, pos.getX(), pos.getY(), pos.getZ(),
-						getPickStack(world, pos, getDefaultState()));
-			}
-		}
+		ItemScatterer.spawn(world, pos.getX(), pos.getY(), pos.getZ(),
+				getPickStack(world, pos, getDefaultState()));
 	}
 
-	@Nullable
 	@Override
 	public NamedScreenHandlerFactory createScreenHandlerFactory(BlockState state, World world, BlockPos pos) {
 		BlockEntity blockEntity = world.getBlockEntity(pos);

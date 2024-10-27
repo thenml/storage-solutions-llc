@@ -1,11 +1,19 @@
 package net.nml.storagesolutions;
 
+import net.minecraft.block.Block;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.registry.Registries;
+import net.nml.storagesolutions.chest.TieredBlockEntity;
+
 public class Utils {
 	// there are 1253 items in vanilla minecraft
 	// why tf would you need to store 4x that ammount in a single container
 	public static final int MAX_SLOTS = 4095;
 
 	static public int floorSlots(int slots) {
+		if (slots < 9)
+			return 9;
 		int rows = calculateRows(slots);
 		int columns = slots / rows;
 		if (columns < 3)
@@ -24,5 +32,19 @@ public class Utils {
 			}
 		}
 		return slots / 27;
+	}
+
+	public static ItemStack tieredItemStack(Block tieredBlock, Block baseBlock) {
+		ItemStack result = new ItemStack(tieredBlock);
+		NbtCompound nbtCompound = result.getOrCreateSubNbt("BlockEntityTag");
+		nbtCompound.putInt("SlotCount", Materials.blocks.getOrDefault(baseBlock, 27));
+		nbtCompound.putString("BaseBlock", Registries.BLOCK.getId(baseBlock).toString());
+		return result;
+	}
+
+	public static void tieredItemStack(ItemStack itemStack, TieredBlockEntity tieredBlockEntity) {
+		NbtCompound nbtCompound = itemStack.getOrCreateSubNbt("BlockEntityTag");
+		nbtCompound.putInt("SlotCount", tieredBlockEntity.size());
+		nbtCompound.putString("BaseBlock", tieredBlockEntity.getBaseBlockIdentifier().toString());
 	}
 }

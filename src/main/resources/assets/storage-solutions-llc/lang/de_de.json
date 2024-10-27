@@ -1,0 +1,17 @@
+{
+	"block.storage-solutions-llc.material_chest.lite": "Einfacher-Truhe",
+	"block.storage-solutions-llc.material_chest.basic": "Grund-Truhe",
+	"block.storage-solutions-llc.material_chest.copper": "Verstärkte-Truhe",
+	"block.storage-solutions-llc.material_chest.iron": "Erweiterte-Truhe",
+	"block.storage-solutions-llc.material_chest.gold": "Überlegene-Truhe",
+	"block.storage-solutions-llc.material_chest.diamond": "Elite-Truhe",
+	"block.storage-solutions-llc.material_chest.sculk": "Meister-Truhe",
+	"block.storage-solutions-llc.material_chest.netherite": "Große-Truhe",
+	"block.storage-solutions-llc.material_chest.legendary": "Legendäre-Truhe",
+	"block.storage-solutions-llc.material_chest.mythic": "Mythische-Truhe",
+	"block.storage-solutions-llc.material_chest.godlike": "Göttliche-Truhe",
+	"block.storage-solutions-llc.material_chest.creative": "Kreative-Truhe",
+	"block.storage-solutions-llc.material_chest": "Aufrüstbare-Truhe",
+	"block.storage-solutions-llc.material_chest.tooltip1": "Upgrade: %s",
+	"block.storage-solutions-llc.material_chest.tooltip2": "Enthält %s Slots!"
+}

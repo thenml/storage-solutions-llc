@@ -11,6 +11,7 @@
 	"block.storage-solutions-llc.material_chest.mythic": "Мифический сундук",
 	"block.storage-solutions-llc.material_chest.godlike": "Божественный сундук",
 	"block.storage-solutions-llc.material_chest.creative": "Творческий сундук",
+	"block.storage-solutions-llc.material_chest": "Улучшаемый сундук",
 	"block.storage-solutions-llc.material_chest.tooltip1": "Улучшение: %s",
 	"block.storage-solutions-llc.material_chest.tooltip2": "Содержит %s ячеек!"
 }

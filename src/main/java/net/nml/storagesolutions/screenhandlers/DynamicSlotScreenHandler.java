@@ -26,16 +26,17 @@ import net.minecraft.screen.ScreenHandlerContext;
 import net.nml.storagesolutions.StorageSolutionsLLC;
 import net.nml.storagesolutions.Utils;
 import net.nml.storagesolutions.mixin.WItemSlotMixin;
+import net.nml.storagesolutions.registers.RegisterOthers;
 
 public class DynamicSlotScreenHandler extends SyncedGuiDescription {
 	private Inventory inventory;
-	private int scrollOffset = 0; // Current scroll position
+	private int scrollOffset = 0;
 	private static final int MAX_ROWS = 12;
 	private CWItemSlot grid;
 
 	public DynamicSlotScreenHandler(int syncId, PlayerInventory playerInventory, int slotCount,
 			ScreenHandlerContext context) {
-		super(StorageSolutionsLLC.DYNAMIC_SLOT_SCREEN_HANDLER_TYPE, syncId, playerInventory,
+		super(RegisterOthers.DYNAMIC_SLOT_SCREEN_HANDLER_TYPE, syncId, playerInventory,
 				getBlockInventory(context, slotCount), null);
 		inventory = this.blockInventory;
 		// StorageSolutionsLLC.LOGGER.info("Slots: " + slotCount + "; on side: "+

@@ -20,6 +20,9 @@
 		],
 		"client": [
 			"net.nml.storagesolutions.StorageSolutionsLLCClient"
+		],
+		"emi": [
+			"net.nml.storagesolutions.compat.EmiCompat"
 		]
 	},
 	"mixins": [

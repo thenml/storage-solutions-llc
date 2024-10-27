@@ -26,7 +26,7 @@ import net.minecraft.util.math.BlockPos;
 import net.nml.storagesolutions.registers.RegisterBlockTypes;
 import net.nml.storagesolutions.screenhandlers.DynamicSlotScreenHandler;
 
-public class MaterialChestBlockEntity extends ChestBlockEntity {
+public class MaterialChestBlockEntity extends ChestBlockEntity implements TieredBlockEntity {
 	public static final Block DEFAULT_BASE_BLOCK = Blocks.STONE_BRICKS;
 	public static final int DEFAULT_SLOT_COUNT = 27;
 	private Identifier baseBlockIdentifier;

@@ -11,6 +11,7 @@
 	"block.storage-solutions-llc.material_chest.mythic": "Mythic Chest",
 	"block.storage-solutions-llc.material_chest.godlike": "Godlike Chest",
 	"block.storage-solutions-llc.material_chest.creative": "Creative Chest",
+	"block.storage-solutions-llc.material_chest": "Upgradable Chest",
 	"block.storage-solutions-llc.material_chest.tooltip1": "Upgrade: %s",
 	"block.storage-solutions-llc.material_chest.tooltip2": "Contains %s slots!"
 }

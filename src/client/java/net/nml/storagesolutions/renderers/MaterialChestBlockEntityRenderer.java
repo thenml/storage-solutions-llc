@@ -128,10 +128,8 @@ public class MaterialChestBlockEntityRenderer<T extends BlockEntity & LidOpenabl
 								reference_block);
 					} else {
 						renderMaterialChest(matrices, vertexConsumerBlock, vertexConsumerChest,
-								this.doubleChestRightLid,
-								this.doubleChestRightLatch, this.doubleChestRightBase, openFactor, adjustedLight,
-								overlay,
-								reference_block);
+								this.doubleChestRightLid, this.doubleChestRightLatch, this.doubleChestRightBase,
+								openFactor, adjustedLight, overlay, reference_block);
 					}
 				} else {
 					renderMaterialChest(matrices, vertexConsumerBlock, vertexConsumerChest, this.singleChestLid,
