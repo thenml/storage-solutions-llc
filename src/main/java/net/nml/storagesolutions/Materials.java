@@ -21,7 +21,6 @@ import net.minecraft.registry.RegistryKey;
 import net.minecraft.resource.Resource;
 import net.minecraft.resource.ResourceManager;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.math.MathHelper;
 
 public class Materials implements SimpleSynchronousResourceReloadListener {
 	private static final Gson GSON = new Gson();
@@ -128,7 +127,7 @@ public class Materials implements SimpleSynchronousResourceReloadListener {
 					} else {
 						if (blocks.containsKey(correspondingBlock))
 							continue;
-						int slotCount = MathHelper.floor(material.getDurability() / 13.5f);
+						int slotCount = Utils.calculateSlots(material);
 						blocks.put(correspondingBlock, Utils.floorSlots(slotCount));
 						// StorageSolutionsLLC.LOGGER.info("Found " + correspondingBlock + " with " +
 						// slotCount + " slots");

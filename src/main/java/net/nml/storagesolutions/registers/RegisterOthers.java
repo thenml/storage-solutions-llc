@@ -29,7 +29,8 @@ public class RegisterOthers {
 							(syncId, playerInventory, buf) -> new DynamicSlotScreenHandler(syncId, playerInventory,
 									buf.readInt(), ScreenHandlerContext.EMPTY)));
 
-	public static final RecipeSerializer<TieredBlockRecipe> TIERED_BLOCK_RECIPE = registerRecipe("tiered_block",
+	public static final RecipeSerializer<TieredBlockRecipe> MATERIAL_CHEST_RECIPE = registerRecipe(
+			new Identifier(StorageSolutionsLLC.MOD_ID, "material_chest").toString(),
 			new SpecialRecipeSerializer<>((id, category) -> {
 				return new TieredBlockRecipe(id, category, Blocks.CHEST,
 						RegisterBlocks.MATERIAL_CHEST_BLOCK);

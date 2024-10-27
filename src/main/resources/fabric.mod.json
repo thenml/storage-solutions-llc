@@ -3,15 +3,16 @@
 	"id": "storage-solutions-llc",
 	"version": "${version}",
 	"name": "Storage Solutions LLC",
-	"description": "This is an example description! Tell everyone what your mod is about!",
+	"description": "All the storage solutions you need!",
 	"authors": [
-		"Me!"
+		"nml"
 	],
 	"contact": {
-		"homepage": "https://fabricmc.net/",
-		"sources": "https://github.com/FabricMC/fabric-example-mod"
+		"homepage": "https://nmll.xyz/",
+		"sources": "https://github.com/thenml/storage-solutions-llc",
+		"issues": "https://github.com/thenml/storage-solutions-llc/issues"
 	},
-	"license": "CC0-1.0",
+	"license": "Apache-2.0",
 	"icon": "assets/storage-solutions-llc/icon.png",
 	"environment": "*",
 	"entrypoints": {
@@ -37,8 +38,5 @@
 		"minecraft": "~1.20.1",
 		"java": ">=17",
 		"fabric-api": "*"
-	},
-	"suggests": {
-		"another-mod": "*"
 	}
 }

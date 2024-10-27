@@ -10,7 +10,6 @@ _All the storage solutions you need!_
 -   **Chest Replacement**: Replace any chest with any other by right-clicking.
 -   **Every Modded Block Is Compatible\***: If a mod adds a new material, there is a high chance it will be compatible with its own ammount of slots.
 -   **Data-driven**: Customize behavior and features via datapacks.
--   **Sort Keybind**: Quickly organize items with a single key press.
 -   **EMI Recipe Support**: Full integration for recipe compatibility.
 
 ![Modded Chest Upgrade Showcase](# "Chest upgraded with various materials for extra slots")
@@ -28,3 +27,4 @@ _All the storage solutions you need!_
 -   Support for additional storage items, such as barrels and shulker boxes.
 -   Double chests.
 -   Support for latest versions.
+-   Sort keybind.

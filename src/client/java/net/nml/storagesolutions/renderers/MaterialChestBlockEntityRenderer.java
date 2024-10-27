@@ -1,7 +1,5 @@
 package net.nml.storagesolutions.renderers;
 
-import java.util.Calendar;
-
 import org.joml.Vector3f;
 
 import it.unimi.dsi.fastutil.floats.Float2FloatFunction;
@@ -52,14 +50,8 @@ public class MaterialChestBlockEntityRenderer<T extends BlockEntity & LidOpenabl
 	private final ModelPart doubleChestRightLid;
 	private final ModelPart doubleChestRightBase;
 	private final ModelPart doubleChestRightLatch;
-	private final boolean christmas;
 
 	public MaterialChestBlockEntityRenderer(BlockEntityRendererFactory.Context ctx) {
-		Calendar calendar = Calendar.getInstance();
-		this.christmas = (calendar.get(Calendar.MONTH) == Calendar.DECEMBER &&
-				calendar.get(Calendar.DAY_OF_MONTH) >= 24 &&
-				calendar.get(Calendar.DAY_OF_MONTH) <= 26);
-
 		// Initialize chest models
 		ModelPart modelPart = ctx.getLayerModelPart(EntityModelLayers.CHEST);
 		this.singleChestBase = modelPart.getChild("bottom");

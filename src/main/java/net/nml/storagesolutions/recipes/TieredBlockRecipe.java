@@ -64,7 +64,7 @@ public class TieredBlockRecipe extends SpecialCraftingRecipe {
 				}
 			}
 
-			ItemStack result = Utils.tieredItemStack(this.result, baseBlock);
+			ItemStack result = Utils.tieredItemStack(this.result, baseBlock, slotCount);
 			return result;
 		}
 		return ItemStack.EMPTY;
@@ -77,7 +77,7 @@ public class TieredBlockRecipe extends SpecialCraftingRecipe {
 
 	@Override
 	public RecipeSerializer<?> getSerializer() {
-		return RegisterOthers.TIERED_BLOCK_RECIPE;
+		return RegisterOthers.MATERIAL_CHEST_RECIPE;
 	}
 
 	@Override

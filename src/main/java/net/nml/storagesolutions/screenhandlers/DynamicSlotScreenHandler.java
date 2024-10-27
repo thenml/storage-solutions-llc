@@ -23,7 +23,6 @@ import net.fabricmc.fabric.api.util.TriState;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.screen.ScreenHandlerContext;
-import net.nml.storagesolutions.StorageSolutionsLLC;
 import net.nml.storagesolutions.Utils;
 import net.nml.storagesolutions.mixin.WItemSlotMixin;
 import net.nml.storagesolutions.registers.RegisterOthers;
@@ -152,20 +151,10 @@ public class DynamicSlotScreenHandler extends SyncedGuiDescription {
 		}
 
 		@Override
-		public InputResult onMouseDown(int x, int y, int button) {
-			InputResult ret = super.onMouseDown(x, y, button);
-			if (this.onChange != null) {
-				// this.onChange.accept(getValue());
-			}
-			StorageSolutionsLLC.LOGGER.info("mouse down");
-			return ret;
-		}
-
-		@Override
 		protected void adjustSlider(int x, int y) {
 			super.adjustSlider(x, y);
 			if (this.onChange != null) {
-				// this.onChange.accept(getValue());
+				this.onChange.accept(getValue());
 			}
 		}
 

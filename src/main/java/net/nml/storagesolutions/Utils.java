@@ -2,8 +2,10 @@ package net.nml.storagesolutions;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.ToolMaterial;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.registry.Registries;
+import net.minecraft.util.math.MathHelper;
 import net.nml.storagesolutions.chest.TieredBlockEntity;
 
 public class Utils {
@@ -34,12 +36,25 @@ public class Utils {
 		return slots / 27;
 	}
 
-	public static ItemStack tieredItemStack(Block tieredBlock, Block baseBlock) {
+	static public int calculateSlots(ToolMaterial material) {
+		// TODO: make the slot calculation smoother
+		if (material.getDurability() > 500) {
+			return MathHelper.floor(material.getDurability() / 13.5f);
+		} else {
+			return MathHelper.floor(material.getDurability() / 4.5f);
+		}
+	}
+
+	public static ItemStack tieredItemStack(Block tieredBlock, Block baseBlock, int slotCount) {
 		ItemStack result = new ItemStack(tieredBlock);
 		NbtCompound nbtCompound = result.getOrCreateSubNbt("BlockEntityTag");
-		nbtCompound.putInt("SlotCount", Materials.blocks.getOrDefault(baseBlock, 27));
+		nbtCompound.putInt("SlotCount", slotCount);
 		nbtCompound.putString("BaseBlock", Registries.BLOCK.getId(baseBlock).toString());
 		return result;
+	}
+
+	public static ItemStack tieredItemStack(Block tieredBlock, Block baseBlock) {
+		return tieredItemStack(tieredBlock, baseBlock, Materials.blocks.getOrDefault(baseBlock, 27));
 	}
 
 	public static void tieredItemStack(ItemStack itemStack, TieredBlockEntity tieredBlockEntity) {
